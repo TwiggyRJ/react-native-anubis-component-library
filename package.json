@@ -17,15 +17,13 @@
     "build": "rm -rf ./lib/* && tsc --skipLibCheck",
     "prepublish": "npm run build"
   },
-  "peerDependencies": {
-    "react-native": "0.55.4"
-  },
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/node": "^10.5.6",
     "@types/react": "^16.4.7",
     "@types/react-native": "^0.56.5",
     "react": "16.4.1",
+    "react-native": "0.55.4",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.9.2",
     "typescript": "^3.0.1",
