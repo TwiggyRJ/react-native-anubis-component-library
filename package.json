@@ -1,7 +1,7 @@
 {
   "name": "react-native-anubis-component-library",
   "version": "0.1.0",
-  "description": "A Component library for React Native built with TypeScript",
+  "description": "A barebones component library for for React Native built with TypeScript. Designed to work as scaffolding for your own components.",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
