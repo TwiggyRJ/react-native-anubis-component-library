@@ -28,5 +28,6 @@
     "tslint-config-airbnb": "^5.9.2",
     "typescript": "^3.0.1",
     "styled-components": "*"
-  }
+  },
+  "types": "./lib/index.d.ts"
 }
