@@ -15,8 +15,9 @@ import {
 interface IAppLoader extends React.ClassAttributes<AppLoader> {
   animateTo: number;
   duration: number;
-  image: string;
+  image: any;
   type: string;
+  isAppLoaded: boolean;
   splashscreenBackground: string;
 }
 
@@ -27,8 +28,8 @@ class AppLoader extends React.Component<IAppLoader, any> {
     image: 'https://cdn.pixabay.com/photo/2016/07/23/13/18/pokemon-1536847_1280.png',
     type: 'image',
     splashscreenBackground: '#551a8b',
+    isAppLoaded: false,
   };
-  static isAppLoaded: boolean = false;
 
   constructor(props: any) {
     super(props);
@@ -39,16 +40,21 @@ class AppLoader extends React.Component<IAppLoader, any> {
     }
   }
 
-  componentDidMount() {
-    Animated.timing(this.state.appLoader, {
-      toValue: this.props.animateTo,
-      duration: this.props.duration,
-      useNativeDriver: true,
-    }).start(() => {
-      this.setState({
-        animationComplete: true,
+  started = false;
+
+  componentDidUpdate(prevProps: any) {
+    if(this.props.isAppLoaded && !(prevProps.isAppLoaded !== this.props.isAppLoaded) && !this.started) {
+      this.started = true;
+      Animated.timing(this.state.appLoader, {
+        toValue: this.props.animateTo,
+        duration: this.props.duration,
+        useNativeDriver: true,
+      }).start(() => {
+        this.setState({
+          animationComplete: true,
+        });
       });
-    });
+    }
   }
 
   render () {
@@ -76,7 +82,7 @@ class AppLoader extends React.Component<IAppLoader, any> {
         {
           scale: this.state.appLoader.interpolate({
             inputRange: [0, 7, 100],
-            outputRange: [1.1, 1.03, 1],
+            outputRange: [1.1, 1.13, 1],
           }),
         },
       ],
@@ -88,24 +94,28 @@ class AppLoader extends React.Component<IAppLoader, any> {
         {
           !this.state.animationComplete ?
             <LoaderSplashScreenLayer background={this.props.splashscreenBackground} />
-          : null
+          :
+            null
         }
         <MaskedViewIOS
           style={{ flex: 1 }}
           maskElement={
             <LoaderCenteredContent>
               <Animated.Image
-                style={[{ height: 200, width: 200 }, imageScale]}
+                style={[{ height: 100, width: 100 }, imageScale]}
                 source={this.props.image}
               />
             </LoaderCenteredContent>
           }
         >
-          <LoaderWhiteLayer>
-            <Animated.View style={[opacityClearToVisible, appScale, { flex: 1 }]}>
-              {this.props.children}
-            </Animated.View>
-          </LoaderWhiteLayer>
+          {
+            !this.state.animationComplete ?
+              <LoaderWhiteLayer />
+            : null
+          }
+          <Animated.View style={[opacityClearToVisible, appScale, { flex: 1 }]}>
+            {this.props.children}
+          </Animated.View>
         </MaskedViewIOS>
       </Loader>
     )

@@ -10,10 +10,18 @@ export const LoaderCenteredContent = styled.View`
   align-items: center;
 `;
 
-export const LoaderSplashScreenLayer = styled.View<{ background: string }>`
-  background-color: ${props => props.styling ? props.background : '#4276ba'};
+const AbsoluteFill = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
-export const LoaderWhiteLayer = styled.View`
-  background-color: #ffffff;
+export const LoaderSplashScreenLayer = AbsoluteFill.extend<{ background: string }>`
+  background-color: ${props => props.background ? props.background : '#4276ba'};
+`;
+
+export const LoaderWhiteLayer = AbsoluteFill.extend`
+  background-color: #fff;
 `;
