@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Platform,
   TouchableHighlight,
   TouchableNativeFeedback,
   View,
@@ -13,6 +12,9 @@ import {
   ButtonContainerAndroidOuterView,
   ButtonText,
 } from './styles';
+import {
+  isAndroid,
+} from '../../utils/platform';
 
 interface DefaultProps {
   platformProps: PlatformProps,
@@ -27,15 +29,16 @@ interface DefaultProps {
 interface PlatformProps {
   containerStyles: string,
   isHighlight: boolean,
+  isOpacity: boolean,
   ripple: string,
   rippleBorder: boolean,
 }
 
 const Button: React.StatelessComponent<DefaultProps> = ({ children, customStyles, platformProps, textStyles, text, type, onPress }) => {
-  const { containerStyles, isHighlight, ripple, rippleBorder }: PlatformProps = {} = platformProps;
+  const { containerStyles, isHighlight, isOpacity, ripple, rippleBorder }: PlatformProps = {} = platformProps;
   
   if (type === 'component') {
-    if (Platform.OS === 'android' && ripple) {
+    if (isAndroid && ripple) {
       return (
         <ButtonContainerAndroidOuterView styling={containerStyles}>
           <TouchableNativeFeedback onPress={onPress} background={TouchableNativeFeedback.Ripple(ripple, rippleBorder)}>
@@ -55,13 +58,15 @@ const Button: React.StatelessComponent<DefaultProps> = ({ children, customStyles
       );
     }
     
+
+
     return (
       <ButtonContainerOpacity styling={customStyles} onPress={onPress}>
         {children}
       </ButtonContainerOpacity>
     );
   } else if (type === 'container') {
-    if (Platform.OS === 'android' && ripple) {
+    if (isAndroid && ripple) {
       return (
         <ButtonContainerAndroidOuterView styling={containerStyles}>
           <TouchableNativeFeedback onPress={onPress} background={TouchableNativeFeedback.Ripple(ripple, rippleBorder)}>
@@ -86,7 +91,7 @@ const Button: React.StatelessComponent<DefaultProps> = ({ children, customStyles
     );
   }
 
-  if (Platform.OS === 'android' && ripple) {
+  if (isAndroid && ripple) {
     return (
       <ButtonContainerAndroidOuterView styling={containerStyles}>
         <TouchableNativeFeedback onPress={onPress} background={TouchableNativeFeedback.Ripple(ripple, rippleBorder)}>

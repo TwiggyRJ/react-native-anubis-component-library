@@ -30,5 +30,6 @@ export const ButtonContainerAndroidOuterView = styled.View<{ styling: string }>`
 export const ButtonText = styled.Text<{styling: string}>`
   font-size: 16;
   font-weight: 500;
+  line-height: 22ß;
   ${props => (props.styling ? props.styling : null)};
 `;
